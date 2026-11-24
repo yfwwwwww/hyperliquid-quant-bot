@@ -1,0 +1,2 @@
+# Hyperliquid official Python SDK (pulls in eth-account and other deps)
+hyperliquid-python-sdk>=0.7.0

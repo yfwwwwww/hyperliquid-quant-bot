@@ -1,0 +1,16 @@
+# 运行时产物 / 敏感文件
+state.json
+state.*.json
+config.json
+.env
+deploy.env
+ledger*.jsonl
+journal*.jsonl
+backtest_trades.csv
+backtest_equity.csv
+logs/
+*.log
+.venv/
+__pycache__/
+*.pyc
+.DS_Store

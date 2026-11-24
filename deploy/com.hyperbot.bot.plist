@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  macOS launchd job for 24/7 + auto-start on login.
+  Edit the absolute paths below to match your machine, then:
+    cp deploy/com.hyperbot.bot.plist ~/Library/LaunchAgents/
+    launchctl load ~/Library/LaunchAgents/com.hyperbot.bot.plist
+    launchctl list | grep hyperbot
+  To stop:
+    launchctl unload ~/Library/LaunchAgents/com.hyperbot.bot.plist
+  Secrets: create a wrapper script that exports vars, or put them in the
+  plist's EnvironmentVariables (not recommended for real keys). Prefer a
+  small shell wrapper that sources ~/.hyperbot.env then execs python.
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.hyperbot.bot</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/ABSOLUTE/PATH/TO/hyperbot/.venv/bin/python</string>
+    <string>-m</string>
+    <string>hyperbot.run</string>
+    <string>--config</string>
+    <string>/ABSOLUTE/PATH/TO/hyperbot/config.json</string>
+  </array>
+
+  <key>WorkingDirectory</key>
+  <string>/ABSOLUTE/PATH/TO/hyperbot</string>
+
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PYTHONUNBUFFERED</key>
+    <string>1</string>
+  </dict>
+
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <true/>
+
+  <key>StandardOutPath</key>
+  <string>/ABSOLUTE/PATH/TO/hyperbot/logs/hyperbot.log</string>
+  <key>StandardErrorPath</key>
+  <string>/ABSOLUTE/PATH/TO/hyperbot/logs/hyperbot.err.log</string>
+
+  <key>ThrottleInterval</key>
+  <integer>10</integer>
+</dict>
+</plist>

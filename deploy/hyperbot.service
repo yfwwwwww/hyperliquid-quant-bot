@@ -1,0 +1,27 @@
+# systemd service for a Linux VPS (recommended for 24/7).
+# Install:
+#   sudo cp deploy/hyperbot.service /etc/systemd/system/hyperbot.service
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now hyperbot
+#   sudo journalctl -u hyperbot -f      # watch logs
+#
+# Put your secrets in /opt/hyperbot/.env (chmod 600), NOT in the repo.
+
+[Unit]
+Description=Hyperliquid trading bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=hyperbot
+WorkingDirectory=/opt/hyperbot
+EnvironmentFile=/opt/hyperbot/.env
+ExecStart=/opt/hyperbot/.venv/bin/python -m hyperbot.run --config /opt/hyperbot/config.json
+Restart=always
+RestartSec=10
+StandardOutput=append:/opt/hyperbot/logs/hyperbot.log
+StandardError=append:/opt/hyperbot/logs/hyperbot.log
+
+[Install]
+WantedBy=multi-user.target
